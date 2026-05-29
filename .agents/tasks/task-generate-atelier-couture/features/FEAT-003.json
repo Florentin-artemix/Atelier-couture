@@ -2,7 +2,7 @@
   "id": "FEAT-003",
   "type": "feat",
   "description": "Generate all HTTP layer files: Controllers (Admin, Client, Public, Auth), Form Requests, and route files (web.php, admin.php, client.php)",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create app/Http/Controllers/Controller.php (base controller)",
     "Create app/Http/Controllers/Auth/LoginController.php with show(), login(), logout() methods",
@@ -44,5 +44,5 @@
     "Run find /projects/sandbox/Atelier-couture/routes -name '*.php' -exec php -l {} \\; and confirm no syntax errors"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Public controllers use namespace App\\Http\\Controllers\\PublicSite (not Public) to avoid PHP reserved word conflict. All files pass php -l. Route files use class references for middleware (EnsureIsAdmin::class, EnsureIsClient::class)."
 }
