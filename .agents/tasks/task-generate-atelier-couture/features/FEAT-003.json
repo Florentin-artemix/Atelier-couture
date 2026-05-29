@@ -2,7 +2,7 @@
   "id": "FEAT-003",
   "type": "feat",
   "description": "Generate all HTTP layer files: Controllers (Admin, Client, Public, Auth), Form Requests, and route files (web.php, admin.php, client.php)",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create app/Http/Controllers/Controller.php (base controller)",
     "Create app/Http/Controllers/Auth/LoginController.php with show(), login(), logout() methods",
