@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Generate all app layer PHP files: Enums, Models, Repositories (interfaces + Eloquent implementations), Services, Exceptions, Events, Listeners, Policies, Providers, Middlewares",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create app/Enums/OrderStatus.php - cases: Precommande, Nouvelle, EnAttenteMesures, EnProduction, Prete, Livree, Annulee. Methods: label(), color(), allowedTransitions(), canTransitionTo(), isTerminal()",
     "Create app/Enums/OrderType.php - cases: Physique='physique', ADistance='a_distance', Precommande='precommande'. Method: label()",
@@ -66,5 +66,5 @@
     "Run find /projects/sandbox/Atelier-couture/app -name '*.php' -exec php -l {} \\; and confirm no syntax errors"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "All 60 PHP files pass php -l syntax check. Listeners use NotificationService instead of ReminderService (consistent with our project naming). MesureService uses enregistrerMesuresEnLot method name as specified. DashboardService has getDonneesDashboard(). All 7 repository interfaces bound in RepositoryServiceProvider."
 }
