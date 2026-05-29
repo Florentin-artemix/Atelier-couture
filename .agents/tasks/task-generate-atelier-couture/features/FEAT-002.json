@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Generate all app layer PHP files: Enums, Models, Repositories (interfaces + Eloquent implementations), Services, Exceptions, Events, Listeners, Policies, Providers, Middlewares",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create app/Enums/OrderStatus.php - cases: Precommande, Nouvelle, EnAttenteMesures, EnProduction, Prete, Livree, Annulee. Methods: label(), color(), allowedTransitions(), canTransitionTo(), isTerminal()",
     "Create app/Enums/OrderType.php - cases: Physique='physique', ADistance='a_distance', Precommande='precommande'. Method: label()",
