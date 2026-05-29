@@ -1,0 +1,44 @@
+{
+  "id": "FEAT-004",
+  "type": "feat",
+  "description": "Generate all database files: 13 migrations in dependency order, 6 factories, 4 seeders (CategorySeeder, MeasurementFieldSeeder, DemoDataSeeder, DatabaseSeeder)",
+  "status": "pending",
+  "steps": [
+    "Create database/migrations/2024_01_01_000001_create_users_table.php - id, nom, email (unique), email_verified_at, password, role enum(admin,client), remember_token, timestamps",
+    "Create database/migrations/2024_01_01_000002_create_clients_table.php - id, user_id (nullable FK), nom, telephone, email, adresse, notes, lien_suivi (unique 64), is_active, timestamps",
+    "Create database/migrations/2024_01_01_000003_create_categorie_modeles_table.php - id, nom, slug (unique), description, is_active, ordre_affichage, timestamps",
+    "Create database/migrations/2024_01_01_000004_create_modeles_table.php - id, categorie_modele_id FK, nom, slug (unique), description, prix_base decimal(10,2), coefficient_complexite decimal(4,2), duree_estimee_jours int, image_principale nullable, images_supplementaires json nullable, is_active, timestamps",
+    "Create database/migrations/2024_01_01_000005_create_mesure_types_table.php - id, nom, libelle, unite, is_base boolean, valeur_min, valeur_max, ordre_affichage, timestamps",
+    "Create database/migrations/2024_01_01_000006_create_categorie_mesure_types_table.php - pivot table: categorie_modele_id FK, mesure_type_id FK, is_obligatoire boolean",
+    "Create database/migrations/2024_01_01_000007_create_accessoires_table.php - id, nom, prix_unitaire decimal(10,2), unite, is_active, timestamps",
+    "Create database/migrations/2024_01_01_000008_create_commandes_table.php - id, reference (unique 20), client_id FK, modele_id FK, type enum, statut enum, prix_propose, prix_final, reduction_client_fournit, date_commande, date_livraison_prevue, date_livraison_reelle, notes_internes, notes_client, lien_suivi (unique 64), timestamps. Indexes on statut, type, dates",
+    "Create database/migrations/2024_01_01_000009_create_commande_accessoires_table.php - pivot: commande_id FK, accessoire_id FK, quantite int, prix_unitaire_snapshot decimal, fourni_par_client boolean, timestamps",
+    "Create database/migrations/2024_01_01_000010_create_mesure_clients_table.php - id, client_id FK, mesure_type_id FK, commande_id FK nullable, valeur decimal(8,2), date_prise date, notes, timestamps",
+    "Create database/migrations/2024_01_01_000011_create_realisation_portfolios_table.php - id, commande_id FK nullable, modele_id FK nullable, titre, description, images json, is_featured boolean, date_realisation date, timestamps",
+    "Create database/migrations/2024_01_01_000012_create_consentements_table.php - id, client_id FK, type string, accepte boolean, date_consentement datetime, timestamps",
+    "Create database/migrations/2024_01_01_000013_create_rappels_table.php - id, commande_id FK nullable, client_id FK nullable, type enum, titre, description, date_echeance date, is_done boolean, date_fait datetime nullable, timestamps",
+    "Create database/factories/UserFactory.php",
+    "Create database/factories/ClientFactory.php with user relation",
+    "Create database/factories/CategorieModeleFactory.php",
+    "Create database/factories/ModeleFactory.php with categorie_modele_id",
+    "Create database/factories/CommandeFactory.php with proper enum values",
+    "Create database/factories/AccessoireFactory.php",
+    "Create database/seeders/CategorySeeder.php - 6 categories: Chemise, Pantalon, Veste, Robe, Pagne / Jupe, Kit complet",
+    "Create database/seeders/MeasurementFieldSeeder.php - 6 base measures + 6 specific, with category associations",
+    "Create database/seeders/DemoDataSeeder.php - admin user (admin@ateliercouture.test / password), 8 accessories, 8 modeles, 5 demo clients",
+    "Create database/seeders/DatabaseSeeder.php calling CategorySeeder, MeasurementFieldSeeder, DemoDataSeeder in order"
+  ],
+  "acceptance_criteria": [
+    "All PHP files pass php -l syntax check",
+    "13 migrations exist in correct dependency order",
+    "Foreign key constraints reference correct table names",
+    "DemoDataSeeder creates admin with email admin@ateliercouture.test and password 'password'",
+    "CategorySeeder creates exactly 6 categories matching the spec",
+    "All factories reference correct model classes"
+  ],
+  "verification": [
+    "Run find /projects/sandbox/Atelier-couture/database -name '*.php' -exec php -l {} \\; and confirm no syntax errors"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

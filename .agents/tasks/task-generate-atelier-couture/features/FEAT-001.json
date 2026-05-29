@@ -1,0 +1,45 @@
+{
+  "id": "FEAT-001",
+  "type": "feat",
+  "description": "Generate the complete Laravel project foundation: config files, bootstrap, artisan, .env.example with MySQL+R2, .gitignore, public/index.php, composer.json, package.json, vite/tailwind/postcss configs, and all config/*.php files",
+  "status": "in_progress",
+  "steps": [
+    "Create composer.json with PHP 8.3, laravel/framework ^12.0, league/flysystem-aws-s3-v3 for R2 support",
+    "Create package.json with tailwindcss, alpinejs, laravel-vite-plugin, @tailwindcss/forms, autoprefixer, postcss, vite, axios",
+    "Create vite.config.js with laravel-vite-plugin pointing to resources/css/app.css and resources/js/app.js",
+    "Create tailwind.config.js with custom colors (ivoire, sable, lin, terracotta palette, charbon, cendre, dore), fonts (Cormorant Garamond, Inter), rounded-couture",
+    "Create postcss.config.js with tailwindcss and autoprefixer",
+    "Create artisan file (Laravel 12 style: builds app from bootstrap/app.php, gets Console kernel, handles ArgvInput)",
+    "Create bootstrap/app.php with withRouting (web.php, console.php, health /up), withMiddleware (alias admin, client, consent), withExceptions",
+    "Create bootstrap/providers.php returning AppServiceProvider, EventServiceProvider, RepositoryServiceProvider",
+    "Create public/index.php (Laravel 12 standard entry point)",
+    "Create public/.htaccess (Apache rewrite rules)",
+    "Create .env.example with: DB_CONNECTION=mysql, DB_HOST=127.0.0.1, DB_PORT=3306, DB_DATABASE=ateliercouture, DB_USERNAME=root, DB_PASSWORD=2025, R2 credentials (R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_ENDPOINT, R2_BUCKET), session/cache/queue config, pricing params",
+    "Create .gitignore (vendor, node_modules, .env, storage/*.key, public/hot, public/storage, public/build)",
+    "Create config/app.php with timezone UTC, locale fr, key from env",
+    "Create config/auth.php with users provider (eloquent, App\\Models\\User)",
+    "Create config/database.php with mysql as DEFAULT connection (host 127.0.0.1, port 3306, database ateliercouture, username root, password 2025)",
+    "Create config/filesystems.php with disks: local, public, r2 (driver s3, key/secret/endpoint/bucket from env, region auto, use_path_style_endpoint true)",
+    "Create config/session.php (file driver)",
+    "Create config/cache.php (file store)",
+    "Create config/pricing.php (taux_reduction_fourni_client 0.80, coefficient_min 0.50, coefficient_max 5.00)",
+    "Create config/ateliercouture.php (rappel params, reference prefix, image config, lien_suivi_length)",
+    "Create resources/css/app.css with @tailwind directives and custom btn-primary/btn-sm/btn-danger classes",
+    "Create resources/js/app.js importing Alpine.js and axios",
+    "Create storage/app/.gitignore, storage/framework/sessions/.gitignore, storage/framework/views/.gitignore, storage/framework/cache/.gitignore, storage/logs/.gitignore"
+  ],
+  "acceptance_criteria": [
+    "All PHP files pass php -l syntax check",
+    ".env.example contains DB_CONNECTION=mysql with DB_PASSWORD=2025",
+    ".env.example contains all 4 R2_ environment variables with actual credentials",
+    "config/filesystems.php has an 'r2' disk using driver 's3'",
+    "config/database.php has mysql as default connection",
+    "bootstrap/app.php registers middleware aliases admin, client, consent",
+    "tailwind.config.js has terracotta color palette and Cormorant Garamond font"
+  ],
+  "verification": [
+    "Run find /projects/sandbox/Atelier-couture -name '*.php' -exec php -l {} \\; and confirm no syntax errors"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

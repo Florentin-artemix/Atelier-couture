@@ -1,0 +1,48 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Generate all HTTP layer files: Controllers (Admin, Client, Public, Auth), Form Requests, and route files (web.php, admin.php, client.php)",
+  "status": "pending",
+  "steps": [
+    "Create app/Http/Controllers/Controller.php (base controller)",
+    "Create app/Http/Controllers/Auth/LoginController.php with show(), login(), logout() methods",
+    "Create app/Http/Controllers/Admin/DashboardController.php injecting DashboardService, calling getDonneesDashboard()",
+    "Create app/Http/Controllers/Admin/OrderController.php injecting CommandeService and TarificationService. Methods: index, create, store, show, edit, update, updateStatus, setPrixFinal, destroy",
+    "Create app/Http/Controllers/Admin/ClientController.php injecting ClientService. CRUD methods",
+    "Create app/Http/Controllers/Admin/CatalogueController.php injecting CatalogueService. CRUD for modeles",
+    "Create app/Http/Controllers/Admin/CategoryController.php injecting CatalogueService for categories",
+    "Create app/Http/Controllers/Admin/AccessoryController.php injecting AccessoryService",
+    "Create app/Http/Controllers/Admin/PortfolioController.php injecting PortfolioService",
+    "Create app/Http/Controllers/Admin/MeasurementController.php injecting MesureService",
+    "Create app/Http/Controllers/Admin/ReminderController.php injecting NotificationService",
+    "Create app/Http/Controllers/Admin/PricingController.php injecting TarificationService for AJAX price calculation",
+    "Create app/Http/Controllers/Public/CatalogueController.php with index() and show() for public catalogue",
+    "Create app/Http/Controllers/Public/PortfolioController.php with index() for public portfolio",
+    "Create app/Http/Controllers/Public/PreorderController.php with create() and confirmation()",
+    "Create app/Http/Controllers/Public/SuiviController.php with showCommande() and showClient() for public tracking",
+    "Create app/Http/Controllers/Client/OrderTrackingController.php with index() and show() for client space",
+    "Create app/Http/Controllers/Client/PreorderController.php with store() for submitting preorders",
+    "Create app/Http/Controllers/Client/ProfileController.php with show() and update()",
+    "Create all Form Requests in app/Http/Requests/Admin/: StoreOrderRequest, UpdateOrderRequest, StoreClientRequest, UpdateClientRequest, StoreModelRequest, UpdateModelRequest, StoreCategoryRequest, StoreAccessoryRequest, StorePortfolioRequest, StoreReminderRequest, StoreMeasurementRequest",
+    "Create app/Http/Requests/Client/StorePreorderRequest.php and UpdateProfileRequest.php",
+    "Create routes/web.php with public routes (home, catalogue, portfolio, preorder, suivi), auth routes, and requires admin.php + client.php",
+    "Create routes/admin.php with /admin prefix, auth+admin middleware, resource routes for all admin controllers",
+    "Create routes/client.php with /espace-client prefix, auth+client middleware, order tracking and profile routes",
+    "Create routes/console.php (empty, standard Laravel)"
+  ],
+  "acceptance_criteria": [
+    "All PHP files pass php -l syntax check",
+    "DashboardController injects DashboardService and calls getDonneesDashboard()",
+    "OrderController injects CommandeService (not OrderService) and TarificationService (not PricingService)",
+    "Route names are consistent: admin.dashboard, admin.commandes.*, admin.clients.*, client.orders.*, public.catalogue.*, public.portfolio.*",
+    "Admin routes use auth + EnsureIsAdmin middleware",
+    "Client routes use auth + EnsureIsClient middleware",
+    "All controller methods reference correct service method names"
+  ],
+  "verification": [
+    "Run find /projects/sandbox/Atelier-couture -path '*/Http/*' -name '*.php' -exec php -l {} \\; and confirm no syntax errors",
+    "Run find /projects/sandbox/Atelier-couture/routes -name '*.php' -exec php -l {} \\; and confirm no syntax errors"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

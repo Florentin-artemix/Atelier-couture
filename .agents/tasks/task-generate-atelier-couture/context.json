@@ -1,0 +1,16 @@
+{
+  "project_type": "Laravel 12 full-stack MVC application with Blade + TailwindCSS + Alpine.js",
+  "language": "PHP 8.3",
+  "build_system": "Composer + npm/Vite for frontend assets",
+  "test_framework": "PHPUnit 11 (no tests required for this greenfield MVP)",
+  "build_command": "php -l on all PHP files to validate syntax",
+  "test_command": "find . -name '*.php' -not -path './vendor/*' -exec php -l {} \\;",
+  "verification_instructions": "1. Run php -l on all PHP files to validate syntax. 2. Verify all referenced classes exist. 3. Verify route file consistency with controllers.",
+  "snapshot_or_generated_files": null,
+  "setup_instructions": "1. composer install 2. npm install 3. cp .env.example .env 4. php artisan key:generate 5. Create MySQL database 6. php artisan migrate --seed 7. npm run build 8. php artisan serve",
+  "environment_constraints": "No composer/npm available in sandbox. Validation via php -l syntax checks only. No MySQL server available. Target is local dev machine.",
+  "contribution_requirements": "All code must be syntactically valid PHP. Method names must be consistent between services and controllers. DashboardService uses getDonneesDashboard(). MySQL as default DB. R2 Cloudflare for image storage.",
+  "key_patterns": "Controller -> Service -> Repository -> Model architecture. French naming for domain concepts. Enums for status/type. Events/Listeners for side effects. Form Requests for validation. Blade components for UI.",
+  "relevant_files": ["All files - greenfield generation from existing reference codebase at /projects/sandbox/atelier-couture/"],
+  "directory_structure": "Standard Laravel 12 structure: app/ (Enums, Events, Exceptions, Http, Listeners, Models, Policies, Providers, Repositories, Services), bootstrap/, config/, database/ (factories, migrations, seeders), public/, resources/ (css, js, views), routes/, storage/"
+}

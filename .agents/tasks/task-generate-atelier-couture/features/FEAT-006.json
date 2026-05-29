@@ -1,0 +1,21 @@
+{
+  "id": "FEAT-006",
+  "type": "docs",
+  "description": "Generate comprehensive README.md with installation instructions, project description, and demo account info",
+  "status": "pending",
+  "steps": [
+    "Create README.md with: project title and description, tech stack summary, prerequisites (PHP 8.3, Composer, Node.js 20, MySQL 8), step-by-step installation (clone, composer install, npm install, cp .env.example .env, php artisan key:generate, create MySQL database, configure .env, php artisan migrate --seed, php artisan storage:link, npm run build, php artisan serve), demo admin account (admin@ateliercouture.test / password), features list, architecture explanation, R2 storage note"
+  ],
+  "acceptance_criteria": [
+    "README.md exists at project root",
+    "Contains all 10 installation steps",
+    "Contains demo admin credentials",
+    "Mentions MySQL 8 with user root and password 2025",
+    "Mentions Cloudflare R2 for image storage"
+  ],
+  "verification": [
+    "Verify README.md exists and contains key sections"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
