@@ -2,7 +2,7 @@
   "id": "FEAT-004",
   "type": "feat",
   "description": "Generate all database files: 13 migrations in dependency order, 6 factories, 4 seeders (CategorySeeder, MeasurementFieldSeeder, DemoDataSeeder, DatabaseSeeder)",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create database/migrations/2024_01_01_000001_create_users_table.php - id, nom, email (unique), email_verified_at, password, role enum(admin,client), remember_token, timestamps",
     "Create database/migrations/2024_01_01_000002_create_clients_table.php - id, user_id (nullable FK), nom, telephone, email, adresse, notes, lien_suivi (unique 64), is_active, timestamps",
