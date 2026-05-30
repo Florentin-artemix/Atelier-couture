@@ -2,7 +2,7 @@
   "id": "FEAT-005",
   "type": "feat",
   "description": "Generate all Blade views: 3 layouts, UI components, form components, navigation components, order components, catalogue components, and all page views (public, admin, client, auth)",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create resources/views/layouts/public.blade.php - navbar (AtelierCouture logo, Catalogue, Portfolio, Suivi, Connexion, Precommander CTA) with mobile hamburger (Alpine.js), flash messages, main content, footer with contact info. Google Fonts link for Cormorant Garamond + Inter",
     "Create resources/views/layouts/admin.blade.php - sidebar (using x-navigation.admin-sidebar), top header with user name and logout, main content area. @yield('page-title') and @yield('content')",
@@ -62,5 +62,5 @@
     "Run find /projects/sandbox/Atelier-couture/resources/views -name '*.blade.php' | wc -l and confirm count matches expected (40+ views)"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Created 47 blade files total. All syntax checks pass. Used admin.rappels.markDone route name (matching routes/admin.php). The preorder form action uses client.preorder.store route. All components use @props directive. Layouts include @vite and Google Fonts."
 }
