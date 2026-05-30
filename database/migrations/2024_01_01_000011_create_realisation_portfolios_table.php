@@ -10,14 +10,22 @@ return new class extends Migration
     {
         Schema::create('realisation_portfolios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('commande_id')->nullable()->constrained('commandes')->nullOnDelete();
-            $table->foreignId('modele_id')->nullable()->constrained('modeles')->nullOnDelete();
             $table->string('titre', 200);
             $table->text('description')->nullable();
-            $table->json('images');
-            $table->boolean('is_featured')->default(false);
-            $table->date('date_realisation');
+            $table->foreignId('categorie_modele_id')->nullable()->constrained('categorie_modeles')->nullOnDelete();
+            $table->foreignId('modele_id')->nullable()->constrained('modeles')->nullOnDelete();
+            $table->foreignId('commande_id')->nullable()->constrained('commandes')->nullOnDelete();
+            $table->string('image_principale', 255)->nullable();
+            $table->json('images_supplementaires')->nullable();
+            $table->date('date_realisation')->nullable();
+            $table->boolean('is_visible')->default(true);
+            $table->unsignedSmallInteger('ordre_affichage')->default(0);
             $table->timestamps();
+
+            $table->index('categorie_modele_id');
+            $table->index('modele_id');
+            $table->index('commande_id');
+            $table->index(['is_visible', 'ordre_affichage']);
         });
     }
 

@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('titre', 200);
             $table->text('description')->nullable();
             $table->date('date_echeance');
-            $table->boolean('is_done')->default(false);
+            $table->boolean('is_fait')->default(false);
             $table->dateTime('date_fait')->nullable();
             $table->timestamps();
 
             $table->index('commande_id');
             $table->index('client_id');
-            $table->index('is_done');
+            $table->index('is_fait');
             $table->index('date_echeance');
         });
     }
