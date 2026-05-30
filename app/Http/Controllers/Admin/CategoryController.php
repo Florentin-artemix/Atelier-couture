@@ -29,7 +29,7 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request): RedirectResponse
     {
-        CategorieModele::create($request->validated());
+        $this->catalogueService->creerCategorie($request->validated());
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Categorie creee avec succes.');
@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
     public function update(StoreCategoryRequest $request, CategorieModele $category): RedirectResponse
     {
-        $category->update($request->validated());
+        $this->catalogueService->updateCategorie($category, $request->validated());
 
         return redirect()->route('admin.categories.index')
             ->with('success', 'Categorie mise a jour.');
