@@ -16,6 +16,6 @@ class DashboardController extends Controller
     {
         $data = $this->dashboardService->getDonneesDashboard();
 
-        return view('admin.dashboard', $data);
+        return view('admin.dashboard.index', $data);
     }
 }
