@@ -16,7 +16,10 @@
         <p class="text-xs text-cendre uppercase tracking-wide">{{ $modele->categorie->nom ?? '' }}</p>
         <h3 class="mt-1 font-display text-lg font-semibold text-charbon">{{ $modele->nom }}</h3>
         @if($modele->prix_base)
-            <p class="mt-1 text-terracotta-500 font-medium">{{ number_format($modele->prix_base, 0, ',', ' ') }} FCFA</p>
+            <p class="mt-1 text-terracotta-500 font-medium">{{ number_format($modele->prix_base, 0, ',', ' ') }} FC</p>
+        @endif
+        @if($modele->duree_estimee_jours)
+            <p class="mt-1 text-xs text-cendre">~{{ $modele->duree_estimee_jours }} jours</p>
         @endif
     </div>
 </div>

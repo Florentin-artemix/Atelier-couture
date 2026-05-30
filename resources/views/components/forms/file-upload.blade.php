@@ -1,9 +1,16 @@
-@props(['label', 'name', 'accept' => 'image/*', 'multiple' => false])
+@props(['label', 'name', 'accept' => 'image/*', 'multiple' => false, 'current' => null])
 
-<div class="mb-4">
+<div class="mb-4" x-data="{ preview: '{{ $current ?? '' }}' }">
     <label for="{{ $name }}" class="block text-sm font-medium text-charbon mb-1">
         {{ $label }}
     </label>
+
+    {{-- Preview --}}
+    <div x-show="preview" class="mb-3">
+        <img :src="preview" alt="Aperçu" class="w-40 h-40 object-cover rounded-couture border border-lin">
+    </div>
+
+    {{-- Upload zone --}}
     <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-lin border-dashed rounded-couture hover:border-terracotta-300 transition">
         <div class="space-y-1 text-center">
             <svg class="mx-auto h-12 w-12 text-cendre" stroke="currentColor" fill="none" viewBox="0 0 48 48">
@@ -19,6 +26,14 @@
                         accept="{{ $accept }}"
                         @if($multiple) multiple @endif
                         class="sr-only"
+                        @change="
+                            const file = $event.target.files[0];
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = (e) => { preview = e.target.result; };
+                                reader.readAsDataURL(file);
+                            }
+                        "
                         {{ $attributes }}
                     >
                 </label>

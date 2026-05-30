@@ -25,7 +25,7 @@
                     @forelse($accessoires as $accessoire)
                         <tr class="hover:bg-sable/50 transition">
                             <td class="px-4 py-3 font-medium text-charbon">{{ $accessoire->nom }}</td>
-                            <td class="px-4 py-3 text-cendre">{{ number_format($accessoire->prix, 0, ',', ' ') }} FCFA</td>
+                            <td class="px-4 py-3 text-cendre">{{ number_format($accessoire->prix, 0, ',', ' ') }} FC</td>
                             <td class="px-4 py-3">
                                 <x-ui.badge :color="$accessoire->actif ? 'green' : 'gray'" :label="$accessoire->actif ? 'Actif' : 'Inactif'" />
                             </td>
@@ -48,7 +48,7 @@
         <form method="POST" action="{{ route('admin.accessoires.store') }}">
             @csrf
             <x-forms.input label="Nom" name="nom" :required="true" />
-            <x-forms.input label="Prix (FCFA)" name="prix" type="number" :required="true" />
+            <x-forms.input label="Prix (FC)" name="prix" type="number" :required="true" />
             <x-forms.textarea label="Description" name="description" rows="2" />
             <div class="flex justify-end pt-4">
                 <button type="submit" class="px-4 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition text-sm">

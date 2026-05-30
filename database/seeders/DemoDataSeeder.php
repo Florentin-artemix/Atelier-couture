@@ -25,16 +25,16 @@ class DemoDataSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Create 8 accessories
+        // Create 8 accessories (prix en Franc Congolais - FC)
         $accessoires = [
-            ['nom' => 'Boutons dorés', 'prix_unitaire' => 500, 'unite' => 'piece', 'is_active' => true],
-            ['nom' => 'Fermeture éclair', 'prix_unitaire' => 1500, 'unite' => 'piece', 'is_active' => true],
-            ['nom' => 'Dentelle', 'prix_unitaire' => 2000, 'unite' => 'metre', 'is_active' => true],
-            ['nom' => 'Fil de soie', 'prix_unitaire' => 800, 'unite' => 'bobine', 'is_active' => true],
-            ['nom' => 'Doublure satin', 'prix_unitaire' => 3500, 'unite' => 'metre', 'is_active' => true],
-            ['nom' => 'Boutons nacre', 'prix_unitaire' => 750, 'unite' => 'piece', 'is_active' => true],
-            ['nom' => 'Broderie', 'prix_unitaire' => 5000, 'unite' => 'piece', 'is_active' => true],
-            ['nom' => 'Perles', 'prix_unitaire' => 1200, 'unite' => 'lot', 'is_active' => true],
+            ['nom' => 'Boutons dorés', 'prix_unitaire' => 2500, 'unite' => 'piece', 'is_active' => true],
+            ['nom' => 'Fermeture éclair', 'prix_unitaire' => 5000, 'unite' => 'piece', 'is_active' => true],
+            ['nom' => 'Dentelle', 'prix_unitaire' => 8000, 'unite' => 'metre', 'is_active' => true],
+            ['nom' => 'Fil de soie', 'prix_unitaire' => 3500, 'unite' => 'bobine', 'is_active' => true],
+            ['nom' => 'Doublure satin', 'prix_unitaire' => 15000, 'unite' => 'metre', 'is_active' => true],
+            ['nom' => 'Boutons nacre', 'prix_unitaire' => 3000, 'unite' => 'piece', 'is_active' => true],
+            ['nom' => 'Broderie', 'prix_unitaire' => 20000, 'unite' => 'piece', 'is_active' => true],
+            ['nom' => 'Perles', 'prix_unitaire' => 5000, 'unite' => 'lot', 'is_active' => true],
         ];
 
         foreach ($accessoires as $accessoire) {
@@ -45,14 +45,14 @@ class DemoDataSeeder extends Seeder
         $categories = CategorieModele::all();
 
         $modeles = [
-            ['nom' => 'Chemise classique homme', 'slug' => 'chemise-classique-homme', 'prix_base' => 15000, 'categorie' => 'chemise'],
-            ['nom' => 'Chemise femme cintrée', 'slug' => 'chemise-femme-cintree', 'prix_base' => 18000, 'categorie' => 'chemise'],
-            ['nom' => 'Pantalon classique', 'slug' => 'pantalon-classique', 'prix_base' => 20000, 'categorie' => 'pantalon'],
-            ['nom' => 'Veste de costume', 'slug' => 'veste-de-costume', 'prix_base' => 45000, 'categorie' => 'veste'],
-            ['nom' => 'Robe de soirée', 'slug' => 'robe-de-soiree', 'prix_base' => 55000, 'categorie' => 'robe'],
-            ['nom' => 'Jupe évasée', 'slug' => 'jupe-evasee', 'prix_base' => 12000, 'categorie' => 'pagne-jupe'],
-            ['nom' => 'Kit costume 3 pièces', 'slug' => 'kit-costume-3-pieces', 'prix_base' => 85000, 'categorie' => 'kit-complet'],
-            ['nom' => 'Robe traditionnelle', 'slug' => 'robe-traditionnelle', 'prix_base' => 35000, 'categorie' => 'robe'],
+            ['nom' => 'Chemise classique homme', 'slug' => 'chemise-classique-homme', 'prix_base' => 25000, 'categorie' => 'chemise', 'duree_estimee_jours' => 5],
+            ['nom' => 'Chemise femme cintrée', 'slug' => 'chemise-femme-cintree', 'prix_base' => 30000, 'categorie' => 'chemise', 'duree_estimee_jours' => 5],
+            ['nom' => 'Pantalon classique', 'slug' => 'pantalon-classique', 'prix_base' => 35000, 'categorie' => 'pantalon', 'duree_estimee_jours' => 7],
+            ['nom' => 'Veste de costume', 'slug' => 'veste-de-costume', 'prix_base' => 75000, 'categorie' => 'veste', 'duree_estimee_jours' => 10],
+            ['nom' => 'Robe de soirée', 'slug' => 'robe-de-soiree', 'prix_base' => 95000, 'categorie' => 'robe', 'duree_estimee_jours' => 14],
+            ['nom' => 'Jupe évasée', 'slug' => 'jupe-evasee', 'prix_base' => 20000, 'categorie' => 'pagne-jupe', 'duree_estimee_jours' => 5],
+            ['nom' => 'Kit costume 3 pièces', 'slug' => 'kit-costume-3-pieces', 'prix_base' => 150000, 'categorie' => 'kit-complet', 'duree_estimee_jours' => 21],
+            ['nom' => 'Robe traditionnelle', 'slug' => 'robe-traditionnelle', 'prix_base' => 60000, 'categorie' => 'robe', 'duree_estimee_jours' => 10],
         ];
 
         foreach ($modeles as $modeleData) {
@@ -65,6 +65,7 @@ class DemoDataSeeder extends Seeder
                     'prix_base' => $modeleData['prix_base'],
                     'categorie_modele_id' => $categorie->id,
                     'coefficient_complexite' => 1.00,
+                    'duree_estimee_jours' => $modeleData['duree_estimee_jours'],
                     'is_active' => true,
                 ]);
             }

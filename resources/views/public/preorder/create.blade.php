@@ -22,7 +22,7 @@
             <p class="font-display font-semibold text-charbon">{{ $modele->nom }}</p>
             <p class="text-sm text-cendre">{{ $modele->categorie->nom ?? '' }}</p>
             @if($modele->prix_base)
-                <p class="text-sm text-terracotta-500 font-medium">A partir de {{ number_format($modele->prix_base, 0, ',', ' ') }} FCFA</p>
+                <p class="text-sm text-terracotta-500 font-medium">A partir de {{ number_format($modele->prix_base, 0, ',', ' ') }} FC</p>
             @endif
         </div>
     </div>

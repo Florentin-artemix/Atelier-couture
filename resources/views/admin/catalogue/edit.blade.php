@@ -13,27 +13,31 @@
                 @csrf
                 @method('PUT')
 
-                <x-forms.input label="Nom du modele" name="nom" :value="$modele->nom" :required="true" />
+                <x-forms.input label="Nom du modele" name="nom" :value="$modele->nom" required />
 
                 <x-forms.select
                     label="Categorie"
                     name="categorie_modele_id"
                     :options="$categories->pluck('nom', 'id')->toArray()"
                     :selected="$modele->categorie_modele_id"
-                    :required="true"
+                    required
                 />
 
                 <x-forms.textarea label="Description" name="description" :value="$modele->description ?? ''" rows="4" />
-                <x-forms.input label="Prix de base (FCFA)" name="prix_base" type="number" :value="$modele->prix_base ?? ''" />
-                <x-forms.input label="Delai de confection (jours)" name="delai_confection_jours" type="number" :value="$modele->delai_confection_jours ?? ''" />
-                <x-forms.file-upload label="Image principale (remplacer)" name="image_principale" />
 
-                <x-forms.checkbox label="Actif (visible dans le catalogue)" name="actif" :checked="$modele->actif" />
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <x-forms.input label="Prix de base (FC)" name="prix_base" type="number" :value="$modele->prix_base" required />
+                    <x-forms.input label="Coefficient complexite" name="coefficient_complexite" type="number" step="0.01" min="0.5" max="5" :value="$modele->coefficient_complexite" />
+                    <x-forms.input label="Duree estimee (jours)" name="duree_estimee_jours" type="number" min="1" :value="$modele->duree_estimee_jours" />
+                </div>
 
-                <div class="pt-4 border-t border-lin flex items-center justify-between">
-                    <button type="submit" class="px-6 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition font-medium">
-                        Enregistrer
-                    </button>
+                <x-forms.file-upload label="Image principale" name="image_principale" :current="$modele->image_principale ? Storage::disk('r2')->url($modele->image_principale) : null" />
+
+                <x-forms.checkbox label="Actif (visible au catalogue)" name="is_active" :checked="$modele->is_active" />
+
+                <div class="pt-4 border-t border-lin flex items-center justify-end space-x-3">
+                    <a href="{{ route('admin.catalogue.index') }}" class="btn-secondary">Annuler</a>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
                 </div>
             </form>
         </x-ui.card>

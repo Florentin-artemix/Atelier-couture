@@ -28,6 +28,11 @@ class CatalogueService
     public function creerModele(array $data): Modele
     {
         $data['slug'] = Str::slug($data['nom']);
+
+        if (isset($data['image_principale']) && $data['image_principale'] instanceof \Illuminate\Http\UploadedFile) {
+            $data['image_principale'] = $data['image_principale']->store('modeles', 'r2');
+        }
+
         return $this->catalogueRepository->createModele($data);
     }
 
@@ -36,6 +41,12 @@ class CatalogueService
         if (isset($data['nom'])) {
             $data['slug'] = Str::slug($data['nom']);
         }
+
+        // Handle image upload
+        if (isset($data['image_principale']) && $data['image_principale'] instanceof \Illuminate\Http\UploadedFile) {
+            $data['image_principale'] = $data['image_principale']->store('modeles', 'r2');
+        }
+
         $this->catalogueRepository->updateModele($modele, $data);
         return $modele->fresh();
     }

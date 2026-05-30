@@ -22,7 +22,7 @@
         />
         <x-ui.stat-card
             title="CA du mois"
-            :value="number_format($compteurs['chiffre_affaires_mois'], 0, ',', ' ') . ' FCFA'"
+            :value="number_format($compteurs['chiffre_affaires_mois'], 0, ',', ' ') . ' FC'"
             color="terracotta"
         />
     </div>

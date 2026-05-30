@@ -22,11 +22,11 @@
                 />
 
                 <x-forms.textarea label="Description" name="description" rows="4" />
-                <x-forms.input label="Prix de base (FCFA)" name="prix_base" type="number" />
-                <x-forms.input label="Delai de confection (jours)" name="delai_confection_jours" type="number" />
+                <x-forms.input label="Prix de base (FC)" name="prix_base" type="number" />
+                <x-forms.input label="Duree estimee (jours)" name="duree_estimee_jours" type="number" min="1" />
                 <x-forms.file-upload label="Image principale" name="image_principale" />
 
-                <x-forms.checkbox label="Actif (visible dans le catalogue)" name="actif" :checked="true" />
+                <x-forms.checkbox label="Actif (visible dans le catalogue)" name="is_active" :checked="true" />
 
                 <div class="pt-4 border-t border-lin">
                     <button type="submit" class="px-6 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition font-medium">

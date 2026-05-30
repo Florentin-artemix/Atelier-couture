@@ -40,7 +40,7 @@
             @if($commande->prix_final)
                 <div>
                     <p class="text-cendre">Prix</p>
-                    <p class="font-medium text-charbon">{{ number_format($commande->prix_final, 0, ',', ' ') }} FCFA</p>
+                    <p class="font-medium text-charbon">{{ number_format($commande->prix_final, 0, ',', ' ') }} FC</p>
                 </div>
             @endif
         </div>

@@ -44,7 +44,7 @@
                         <div class="space-y-2">
                             @foreach($accessoires as $accessoire)
                                 <x-forms.checkbox
-                                    :label="$accessoire->nom . ' (' . number_format($accessoire->prix, 0, ',', ' ') . ' FCFA)'"
+                                    :label="$accessoire->nom . ' (' . number_format($accessoire->prix, 0, ',', ' ') . ' FC)'"
                                     :name="'accessoires[' . $accessoire->id . ']'"
                                 />
                             @endforeach

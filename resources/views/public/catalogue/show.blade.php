@@ -30,7 +30,7 @@
 
             @if($modele->prix_base)
                 <p class="mt-4 text-2xl text-terracotta-500 font-semibold">
-                    A partir de {{ number_format($modele->prix_base, 0, ',', ' ') }} FCFA
+                    A partir de {{ number_format($modele->prix_base, 0, ',', ' ') }} FC
                 </p>
             @endif
 
@@ -40,9 +40,9 @@
                 </div>
             @endif
 
-            @if($modele->delai_confection_jours)
+            @if($modele->duree_estimee_jours)
                 <p class="mt-4 text-sm text-cendre">
-                    Delai de confection: <span class="font-medium text-charbon">{{ $modele->delai_confection_jours }} jours</span>
+                    Delai de confection: <span class="font-medium text-charbon">{{ $modele->duree_estimee_jours }} jours</span>
                 </p>
             @endif
 

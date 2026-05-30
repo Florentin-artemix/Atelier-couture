@@ -42,7 +42,7 @@
                 @if($commande->prix_final)
                     <div>
                         <dt class="text-cendre">Prix</dt>
-                        <dd class="font-medium text-terracotta-500">{{ number_format($commande->prix_final, 0, ',', ' ') }} FCFA</dd>
+                        <dd class="font-medium text-terracotta-500">{{ number_format($commande->prix_final, 0, ',', ' ') }} FC</dd>
                     </div>
                 @endif
             </dl>
@@ -55,7 +55,7 @@
                     @foreach($commande->accessoires as $accessoire)
                         <li class="py-2 flex justify-between">
                             <span class="text-charbon">{{ $accessoire->nom }}</span>
-                            <span class="text-cendre">{{ number_format($accessoire->pivot->prix_unitaire ?? $accessoire->prix, 0, ',', ' ') }} FCFA</span>
+                            <span class="text-cendre">{{ number_format($accessoire->pivot->prix_unitaire ?? $accessoire->prix, 0, ',', ' ') }} FC</span>
                         </li>
                     @endforeach
                 </ul>
