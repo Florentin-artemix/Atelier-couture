@@ -39,10 +39,10 @@
                         <dd class="font-medium text-charbon">{{ $commande->date_livraison_prevue->format('d/m/Y') }}</dd>
                     </div>
                 @endif
-                @if($commande->prix_final)
+                @if($commande->prix_final || $commande->prix_propose)
                     <div>
                         <dt class="text-cendre">Prix</dt>
-                        <dd class="font-medium text-terracotta-500">{{ number_format($commande->prix_final, 0, ',', ' ') }} FC</dd>
+                        <dd class="font-medium text-terracotta-500">{{ number_format($commande->prix_final ?? $commande->prix_propose, 0, ',', ' ') }} FC</dd>
                     </div>
                 @endif
             </dl>
@@ -55,7 +55,7 @@
                     @foreach($commande->accessoires as $accessoire)
                         <li class="py-2 flex justify-between">
                             <span class="text-charbon">{{ $accessoire->nom }}</span>
-                            <span class="text-cendre">{{ number_format($accessoire->pivot->prix_unitaire ?? $accessoire->prix, 0, ',', ' ') }} FC</span>
+                            <span class="text-cendre">{{ number_format($accessoire->pivot->prix_unitaire_snapshot, 0, ',', ' ') }} FC</span>
                         </li>
                     @endforeach
                 </ul>

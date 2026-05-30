@@ -56,7 +56,7 @@
                         @foreach($commande->accessoires as $accessoire)
                             <li class="py-2 flex justify-between text-sm">
                                 <span class="text-charbon">{{ $accessoire->nom }}</span>
-                                <span class="text-cendre">{{ number_format($accessoire->pivot->prix_unitaire ?? $accessoire->prix, 0, ',', ' ') }} FC</span>
+                                <span class="text-cendre">{{ number_format($accessoire->pivot->prix_unitaire_snapshot, 0, ',', ' ') }} FC</span>
                             </li>
                         @endforeach
                     </ul>
@@ -102,8 +102,24 @@
             <x-ui.card title="Tarification">
                 <div class="text-sm space-y-2">
                     <div class="flex justify-between">
-                        <span class="text-cendre">Prix de base</span>
-                        <span class="text-charbon">{{ number_format($commande->prix_base ?? 0, 0, ',', ' ') }} FC</span>
+                        <span class="text-cendre">Prix de base ({{ $details['coefficient'] }}x)</span>
+                        <span class="text-charbon">{{ number_format($details['prix_base_calcule'], 0, ',', ' ') }} FC</span>
+                    </div>
+                    @if($details['total_accessoires'] > 0)
+                        <div class="flex justify-between">
+                            <span class="text-cendre">Accessoires</span>
+                            <span class="text-charbon">+ {{ number_format($details['total_accessoires'], 0, ',', ' ') }} FC</span>
+                        </div>
+                    @endif
+                    @if($details['reduction'] > 0)
+                        <div class="flex justify-between">
+                            <span class="text-cendre">Reduction (fourni par client)</span>
+                            <span class="text-charbon">- {{ number_format($details['reduction'], 0, ',', ' ') }} FC</span>
+                        </div>
+                    @endif
+                    <div class="flex justify-between font-medium pt-2 border-t border-lin">
+                        <span class="text-charbon">Prix propose</span>
+                        <span class="text-charbon">{{ number_format($commande->prix_propose ?? $details['prix_propose'], 0, ',', ' ') }} FC</span>
                     </div>
                     @if($commande->prix_final)
                         <div class="flex justify-between font-semibold pt-2 border-t border-lin">
@@ -117,7 +133,7 @@
                 <form method="POST" action="{{ route('admin.commandes.setPrixFinal', $commande) }}" class="mt-4 pt-4 border-t border-lin">
                     @csrf
                     @method('PATCH')
-                    <x-forms.input label="Prix final" name="prix_final" type="number" :value="$commande->prix_final ?? ''" />
+                    <x-forms.input label="Prix final (FC)" name="prix_final" type="number" :value="$commande->prix_final ?? $commande->prix_propose" />
                     <button type="submit" class="w-full px-3 py-2 bg-terracotta-500 text-white text-sm rounded-couture hover:bg-terracotta-600 transition">
                         Definir le prix
                     </button>

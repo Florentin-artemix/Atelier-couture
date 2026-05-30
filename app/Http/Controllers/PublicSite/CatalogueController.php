@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PublicSite;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategorieModele;
 use App\Models\Modele;
 use App\Services\Catalogue\CatalogueService;
 use Illuminate\Http\Request;
@@ -16,10 +17,15 @@ class CatalogueController extends Controller
 
     public function index(Request $request): View
     {
-        $modeles = $this->catalogueService->getModelesByCategorie($request->input('categorie_id'));
+        // Le filtre envoie le slug de la categorie (?categorie=robe)
+        $slug = $request->input('categorie');
+        $categorie = $slug ? CategorieModele::where('slug', $slug)->first() : null;
+        $selectedCategory = $categorie?->id;
+
+        $modeles = $this->catalogueService->getModelesByCategorie($selectedCategory);
         $categories = $this->catalogueService->getActiveCategories();
 
-        return view('public.catalogue.index', compact('modeles', 'categories'));
+        return view('public.catalogue.index', compact('modeles', 'categories', 'selectedCategory'));
     }
 
     public function show(Modele $modele): View

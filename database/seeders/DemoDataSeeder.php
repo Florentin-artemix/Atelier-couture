@@ -6,6 +6,7 @@ use App\Enums\UserRole;
 use App\Models\Accessoire;
 use App\Models\CategorieModele;
 use App\Models\Client;
+use App\Models\Commande;
 use App\Models\Modele;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -88,6 +89,61 @@ class DemoDataSeeder extends Seeder
                 'email' => $user->email,
                 'lien_suivi' => Str::random(64),
                 'is_active' => true,
+            ]);
+        }
+
+        // Compte client de demonstration connu (avec commandes) pour tester l'espace client
+        $clientUser = User::create([
+            'nom' => 'Client Demo',
+            'email' => 'client@ateliercouture.test',
+            'password' => Hash::make('password'),
+            'role' => UserRole::Client,
+            'email_verified_at' => now(),
+        ]);
+
+        $clientDemo = Client::create([
+            'user_id' => $clientUser->id,
+            'nom' => 'Client Demo',
+            'telephone' => '+243812345678',
+            'email' => 'client@ateliercouture.test',
+            'adresse' => 'Kinshasa, RDC',
+            'lien_suivi' => Str::random(64),
+            'is_active' => true,
+        ]);
+
+        // Consentement mesures pour ce client
+        \App\Models\Consentement::create([
+            'client_id' => $clientDemo->id,
+            'type' => 'collecte_mesures',
+            'accepte' => true,
+            'date_consentement' => now(),
+        ]);
+
+        // Quelques commandes pour le client de demo
+        $modelesDispo = Modele::all();
+        $statuts = ['nouvelle', 'en_production', 'livree'];
+
+        foreach ($statuts as $index => $statut) {
+            $modele = $modelesDispo->get($index) ?? $modelesDispo->first();
+            if (!$modele) {
+                continue;
+            }
+
+            $prixPropose = (float) $modele->prix_base * (float) $modele->coefficient_complexite;
+
+            Commande::create([
+                'reference' => sprintf('CMD-%s-%04d', now()->format('Y'), 9000 + $index),
+                'client_id' => $clientDemo->id,
+                'modele_id' => $modele->id,
+                'type' => 'physique',
+                'statut' => $statut,
+                'date_commande' => now()->subDays(($index + 1) * 7)->toDateString(),
+                'date_livraison_prevue' => now()->addDays(($index + 1) * 3)->toDateString(),
+                'date_livraison_reelle' => $statut === 'livree' ? now()->subDays(1)->toDateString() : null,
+                'prix_propose' => $prixPropose,
+                'prix_final' => $statut === 'livree' ? $prixPropose : null,
+                'reduction_client_fournit' => 0,
+                'lien_suivi' => Str::random(64),
             ]);
         }
     }
