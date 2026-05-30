@@ -30,7 +30,7 @@ class NotificationService
         return $this->reminderRepository->create([
             'commande_id' => $commande->id,
             'client_id' => $commande->client_id,
-            'type' => ReminderType::Automatique,
+            'type' => ReminderType::PreLivraison,
             'titre' => "Livraison proche : {$commande->reference}",
             'description' => "La commande {$commande->reference} doit etre livree le {$commande->date_livraison_prevue->format('d/m/Y')}.",
             'date_echeance' => $dateEcheance->toDateString(),
@@ -63,7 +63,7 @@ class NotificationService
         return $this->reminderRepository->create([
             'commande_id' => $commande->id,
             'client_id' => $commande->client_id,
-            'type' => ReminderType::Automatique,
+            'type' => ReminderType::PreLivraison,
             'titre' => "Mesures manquantes : {$commande->reference}",
             'description' => "Contacter le client pour completer les mesures.",
             'date_echeance' => now()->addDay()->toDateString(),
@@ -75,7 +75,7 @@ class NotificationService
         return $this->reminderRepository->create([
             'commande_id' => $commande->id,
             'client_id' => $commande->client_id,
-            'type' => ReminderType::Automatique,
+            'type' => ReminderType::Retard,
             'titre' => "RETARD : {$commande->reference}",
             'description' => "La commande {$commande->reference} est en retard de {$commande->joursRetard()} jour(s).",
             'date_echeance' => now()->toDateString(),

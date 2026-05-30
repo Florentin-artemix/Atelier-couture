@@ -31,7 +31,7 @@
                     <x-forms.input label="Duree estimee (jours)" name="duree_estimee_jours" type="number" min="1" :value="$modele->duree_estimee_jours" />
                 </div>
 
-                <x-forms.file-upload label="Image principale" name="image_principale" :current="$modele->image_principale ? Storage::disk('r2')->url($modele->image_principale) : null" />
+                <x-forms.file-upload label="Image principale" name="image_principale" :current="$modele->image_url" />
 
                 <x-forms.checkbox label="Actif (visible au catalogue)" name="is_active" :checked="$modele->is_active" />
 

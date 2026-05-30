@@ -63,6 +63,16 @@ class Modele extends Model
 
     // Helpers
 
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image_principale) {
+            return null;
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk(config('ateliercouture.images_disk', 'public'))
+            ->url($this->image_principale);
+    }
+
     public function getPrixBaseCalcule(): float
     {
         return (float) $this->prix_base * (float) $this->coefficient_complexite;

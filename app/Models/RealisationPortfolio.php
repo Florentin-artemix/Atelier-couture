@@ -63,4 +63,16 @@ class RealisationPortfolio extends Model
     {
         return $query->orderBy('ordre_affichage')->orderByDesc('date_realisation');
     }
+
+    // Helpers
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image_principale) {
+            return null;
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk(config('ateliercouture.images_disk', 'public'))
+            ->url($this->image_principale);
+    }
 }

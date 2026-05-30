@@ -19,6 +19,7 @@ class PortfolioService
 
     public function creerRealisation(array $data): RealisationPortfolio
     {
+        $data = $this->handleImageUpload($data);
         return $this->portfolioRepository->create($data);
     }
 
@@ -34,7 +35,20 @@ class PortfolioService
 
     public function updateEntry(RealisationPortfolio $entry, array $data): RealisationPortfolio
     {
+        $data = $this->handleImageUpload($data);
         $this->portfolioRepository->update($entry, $data);
         return $entry->fresh();
+    }
+
+    private function handleImageUpload(array $data): array
+    {
+        if (isset($data['image_principale']) && $data['image_principale'] instanceof \Illuminate\Http\UploadedFile) {
+            $data['image_principale'] = $data['image_principale']->store('portfolio', config('ateliercouture.images_disk', 'public'));
+        } else {
+            // Ne pas ecraser l'image existante si aucun fichier n'est envoye
+            unset($data['image_principale']);
+        }
+
+        return $data;
     }
 }

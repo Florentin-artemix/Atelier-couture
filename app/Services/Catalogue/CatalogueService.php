@@ -30,7 +30,7 @@ class CatalogueService
         $data['slug'] = Str::slug($data['nom']);
 
         if (isset($data['image_principale']) && $data['image_principale'] instanceof \Illuminate\Http\UploadedFile) {
-            $data['image_principale'] = $data['image_principale']->store('modeles', 'r2');
+            $data['image_principale'] = $data['image_principale']->store('modeles', config('ateliercouture.images_disk', 'public'));
         }
 
         return $this->catalogueRepository->createModele($data);
@@ -44,7 +44,7 @@ class CatalogueService
 
         // Handle image upload
         if (isset($data['image_principale']) && $data['image_principale'] instanceof \Illuminate\Http\UploadedFile) {
-            $data['image_principale'] = $data['image_principale']->store('modeles', 'r2');
+            $data['image_principale'] = $data['image_principale']->store('modeles', config('ateliercouture.images_disk', 'public'));
         }
 
         $this->catalogueRepository->updateModele($modele, $data);
