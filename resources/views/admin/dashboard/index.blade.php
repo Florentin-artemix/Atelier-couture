@@ -50,7 +50,7 @@
                 <div class="flex items-center justify-between py-3 {{ !$loop->last ? 'border-b border-lin' : '' }}">
                     <div>
                         <p class="font-medium text-charbon">{{ $rappel->titre }}</p>
-                        <p class="text-sm text-cendre">{{ $rappel->date_rappel->format('d/m/Y') }}</p>
+                        <p class="text-sm text-cendre">{{ $rappel->date_echeance?->format('d/m/Y') ?? '-' }}</p>
                     </div>
                     <form method="POST" action="{{ route('admin.rappels.markDone', $rappel) }}">
                         @csrf

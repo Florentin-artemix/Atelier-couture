@@ -31,11 +31,11 @@ class MeasurementFieldSeeder extends Seeder
         ];
 
         foreach ($baseMeasurements as $measurement) {
-            MesureType::create($measurement);
+            MesureType::updateOrCreate(['nom' => $measurement['nom']], $measurement);
         }
 
         foreach ($specificMeasurements as $measurement) {
-            MesureType::create($measurement);
+            MesureType::updateOrCreate(['nom' => $measurement['nom']], $measurement);
         }
 
         // Attach specific measurements to categories via pivot
@@ -55,47 +55,47 @@ class MeasurementFieldSeeder extends Seeder
 
         // Chemise needs tour_cou
         if ($chemise && $tourCou) {
-            $chemise->mesureTypes()->attach($tourCou->id, ['is_obligatoire' => true]);
+            $chemise->mesureTypes()->syncWithoutDetaching([$tourCou->id => ['is_obligatoire' => true]]);
         }
 
         // Pantalon needs entrejambe, tour_cuisse, tour_mollet
         if ($pantalon) {
             if ($longueurEntrejambe) {
-                $pantalon->mesureTypes()->attach($longueurEntrejambe->id, ['is_obligatoire' => true]);
+                $pantalon->mesureTypes()->syncWithoutDetaching([$longueurEntrejambe->id => ['is_obligatoire' => true]]);
             }
             if ($tourCuisse) {
-                $pantalon->mesureTypes()->attach($tourCuisse->id, ['is_obligatoire' => true]);
+                $pantalon->mesureTypes()->syncWithoutDetaching([$tourCuisse->id => ['is_obligatoire' => true]]);
             }
             if ($tourMollet) {
-                $pantalon->mesureTypes()->attach($tourMollet->id, ['is_obligatoire' => false]);
+                $pantalon->mesureTypes()->syncWithoutDetaching([$tourMollet->id => ['is_obligatoire' => false]]);
             }
         }
 
         // Veste needs tour_cou
         if ($veste && $tourCou) {
-            $veste->mesureTypes()->attach($tourCou->id, ['is_obligatoire' => true]);
+            $veste->mesureTypes()->syncWithoutDetaching([$tourCou->id => ['is_obligatoire' => true]]);
         }
 
         // Robe needs longueur_robe
         if ($robe && $longueurRobe) {
-            $robe->mesureTypes()->attach($longueurRobe->id, ['is_obligatoire' => true]);
+            $robe->mesureTypes()->syncWithoutDetaching([$longueurRobe->id => ['is_obligatoire' => true]]);
         }
 
         // Pagne / Jupe needs longueur_jupe
         if ($pagneJupe && $longueurJupe) {
-            $pagneJupe->mesureTypes()->attach($longueurJupe->id, ['is_obligatoire' => true]);
+            $pagneJupe->mesureTypes()->syncWithoutDetaching([$longueurJupe->id => ['is_obligatoire' => true]]);
         }
 
         // Kit complet needs tour_cou, entrejambe, tour_cuisse
         if ($kitComplet) {
             if ($tourCou) {
-                $kitComplet->mesureTypes()->attach($tourCou->id, ['is_obligatoire' => true]);
+                $kitComplet->mesureTypes()->syncWithoutDetaching([$tourCou->id => ['is_obligatoire' => true]]);
             }
             if ($longueurEntrejambe) {
-                $kitComplet->mesureTypes()->attach($longueurEntrejambe->id, ['is_obligatoire' => true]);
+                $kitComplet->mesureTypes()->syncWithoutDetaching([$longueurEntrejambe->id => ['is_obligatoire' => true]]);
             }
             if ($tourCuisse) {
-                $kitComplet->mesureTypes()->attach($tourCuisse->id, ['is_obligatoire' => false]);
+                $kitComplet->mesureTypes()->syncWithoutDetaching([$tourCuisse->id => ['is_obligatoire' => false]]);
             }
         }
     }

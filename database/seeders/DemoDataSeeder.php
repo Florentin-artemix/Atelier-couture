@@ -17,14 +17,18 @@ class DemoDataSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create admin user
-        User::create([
-            'nom' => 'Administrateur',
-            'email' => 'admin@ateliercouture.test',
-            'password' => Hash::make('password'),
-            'role' => UserRole::Admin,
-            'email_verified_at' => now(),
-        ]);
+        $dejaSeede = User::where('email', 'admin@ateliercouture.test')->exists();
+
+        // Create admin user (idempotent)
+        User::firstOrCreate(
+            ['email' => 'admin@ateliercouture.test'],
+            [
+                'nom' => 'Administrateur',
+                'password' => Hash::make('password'),
+                'role' => UserRole::Admin,
+                'email_verified_at' => now(),
+            ]
+        );
 
         // Create 8 accessories (prix en Franc Congolais - FC)
         $accessoires = [
@@ -39,7 +43,7 @@ class DemoDataSeeder extends Seeder
         ];
 
         foreach ($accessoires as $accessoire) {
-            Accessoire::create($accessoire);
+            Accessoire::firstOrCreate(['nom' => $accessoire['nom']], $accessoire);
         }
 
         // Create 8 modeles assigned to categories
@@ -60,61 +64,70 @@ class DemoDataSeeder extends Seeder
             $categorie = $categories->where('slug', $modeleData['categorie'])->first();
 
             if ($categorie) {
-                Modele::create([
-                    'nom' => $modeleData['nom'],
-                    'slug' => $modeleData['slug'],
-                    'prix_base' => $modeleData['prix_base'],
-                    'categorie_modele_id' => $categorie->id,
-                    'coefficient_complexite' => 1.00,
-                    'duree_estimee_jours' => $modeleData['duree_estimee_jours'],
+                Modele::firstOrCreate(
+                    ['slug' => $modeleData['slug']],
+                    [
+                        'nom' => $modeleData['nom'],
+                        'prix_base' => $modeleData['prix_base'],
+                        'categorie_modele_id' => $categorie->id,
+                        'coefficient_complexite' => 1.00,
+                        'duree_estimee_jours' => $modeleData['duree_estimee_jours'],
+                        'is_active' => true,
+                    ]
+                );
+            }
+        }
+
+        // Create 5 demo clients (seulement au premier seed pour eviter les doublons)
+        if (!$dejaSeede) {
+            for ($i = 0; $i < 5; $i++) {
+                $user = User::create([
+                    'nom' => fake()->name(),
+                    'email' => fake()->unique()->safeEmail(),
+                    'password' => Hash::make('password'),
+                    'role' => UserRole::Client,
+                    'email_verified_at' => now(),
+                ]);
+
+                Client::create([
+                    'user_id' => $user->id,
+                    'nom' => $user->nom,
+                    'telephone' => fake()->phoneNumber(),
+                    'email' => $user->email,
+                    'lien_suivi' => Str::random(64),
                     'is_active' => true,
                 ]);
             }
         }
 
-        // Create 5 demo clients
-        for ($i = 0; $i < 5; $i++) {
-            $user = User::create([
-                'nom' => fake()->name(),
-                'email' => fake()->unique()->safeEmail(),
+        // Compte client de demonstration connu (avec commandes) pour tester l'espace client
+        $clientUser = User::firstOrCreate(
+            ['email' => 'client@ateliercouture.test'],
+            [
+                'nom' => 'Client Demo',
                 'password' => Hash::make('password'),
                 'role' => UserRole::Client,
                 'email_verified_at' => now(),
-            ]);
+            ]
+        );
 
-            Client::create([
-                'user_id' => $user->id,
-                'nom' => $user->nom,
-                'telephone' => fake()->phoneNumber(),
-                'email' => $user->email,
+        $clientDemo = Client::firstOrCreate(
+            ['telephone' => '+243812345678'],
+            [
+                'user_id' => $clientUser->id,
+                'nom' => 'Client Demo',
+                'email' => 'client@ateliercouture.test',
+                'adresse' => 'Kinshasa, RDC',
                 'lien_suivi' => Str::random(64),
                 'is_active' => true,
-            ]);
-        }
-
-        // Compte client de demonstration connu (avec commandes) pour tester l'espace client
-        $clientUser = User::create([
-            'nom' => 'Client Demo',
-            'email' => 'client@ateliercouture.test',
-            'password' => Hash::make('password'),
-            'role' => UserRole::Client,
-            'email_verified_at' => now(),
-        ]);
-
-        $clientDemo = Client::create([
-            'user_id' => $clientUser->id,
-            'nom' => 'Client Demo',
-            'telephone' => '+243812345678',
-            'email' => 'client@ateliercouture.test',
-            'adresse' => 'Kinshasa, RDC',
-            'lien_suivi' => Str::random(64),
-            'is_active' => true,
-        ]);
+            ]
+        );
 
         // Consentement mesures pour ce client
-        \App\Models\Consentement::create([
+        \App\Models\Consentement::firstOrCreate([
             'client_id' => $clientDemo->id,
             'type' => 'collecte_mesures',
+        ], [
             'accepte' => true,
             'date_consentement' => now(),
         ]);
@@ -131,20 +144,22 @@ class DemoDataSeeder extends Seeder
 
             $prixPropose = (float) $modele->prix_base * (float) $modele->coefficient_complexite;
 
-            Commande::create([
-                'reference' => sprintf('CMD-%s-%04d', now()->format('Y'), 9000 + $index),
-                'client_id' => $clientDemo->id,
-                'modele_id' => $modele->id,
-                'type' => 'physique',
-                'statut' => $statut,
-                'date_commande' => now()->subDays(($index + 1) * 7)->toDateString(),
-                'date_livraison_prevue' => now()->addDays(($index + 1) * 3)->toDateString(),
-                'date_livraison_reelle' => $statut === 'livree' ? now()->subDays(1)->toDateString() : null,
-                'prix_propose' => $prixPropose,
-                'prix_final' => $statut === 'livree' ? $prixPropose : null,
-                'reduction_client_fournit' => 0,
-                'lien_suivi' => Str::random(64),
-            ]);
+            Commande::firstOrCreate(
+                ['reference' => sprintf('CMD-%s-%04d', now()->format('Y'), 9000 + $index)],
+                [
+                    'client_id' => $clientDemo->id,
+                    'modele_id' => $modele->id,
+                    'type' => 'physique',
+                    'statut' => $statut,
+                    'date_commande' => now()->subDays(($index + 1) * 7)->toDateString(),
+                    'date_livraison_prevue' => now()->addDays(($index + 1) * 3)->toDateString(),
+                    'date_livraison_reelle' => $statut === 'livree' ? now()->subDays(1)->toDateString() : null,
+                    'prix_propose' => $prixPropose,
+                    'prix_final' => $statut === 'livree' ? $prixPropose : null,
+                    'reduction_client_fournit' => 0,
+                    'lien_suivi' => Str::random(64),
+                ]
+            );
         }
     }
 }
