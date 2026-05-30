@@ -101,6 +101,11 @@ class CommandeService
     {
         $statutActuel = $commande->statut;
 
+        // Si le statut est deja celui demande, on ignore silencieusement (pas d'erreur).
+        if ($statutActuel === $nouveauStatut) {
+            return $commande;
+        }
+
         if (!$statutActuel->canTransitionTo($nouveauStatut)) {
             throw new InvalidOrderTransitionException(
                 "Transition impossible de '{$statutActuel->label()}' vers '{$nouveauStatut->label()}'."

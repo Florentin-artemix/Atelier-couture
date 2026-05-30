@@ -78,7 +78,22 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request, Commande $commande): RedirectResponse
     {
-        $this->commandeService->changerStatut($commande, OrderStatus::from($request->input('statut')));
+        $request->validate(['statut' => ['required', 'string']]);
+
+        $nouveauStatut = OrderStatus::from($request->input('statut'));
+
+        // Statut identique : on n'affiche pas d'erreur, juste une info.
+        if ($commande->statut === $nouveauStatut) {
+            return redirect()->route('admin.commandes.show', $commande)
+                ->with('info', 'La commande est deja dans ce statut.');
+        }
+
+        try {
+            $this->commandeService->changerStatut($commande, $nouveauStatut);
+        } catch (\App\Exceptions\InvalidOrderTransitionException | \App\Exceptions\BusinessException $e) {
+            return redirect()->route('admin.commandes.show', $commande)
+                ->with('error', $e->getMessage());
+        }
 
         return redirect()->route('admin.commandes.show', $commande)
             ->with('success', 'Statut mis a jour.');

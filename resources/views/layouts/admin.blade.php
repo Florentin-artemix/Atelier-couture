@@ -43,6 +43,12 @@
                 </div>
             @endif
 
+            @if(session('info'))
+                <div class="px-6 pt-4">
+                    <x-ui.alert type="info" :message="session('info')" />
+                </div>
+            @endif
+
             {{-- Page content --}}
             <main class="flex-1 p-6">
                 @yield('content')
