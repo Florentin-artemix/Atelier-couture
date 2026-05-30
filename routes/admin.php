@@ -33,6 +33,7 @@ Route::prefix('admin')
         Route::resource('commandes', OrderController::class)->parameter('commandes', 'commande');
         Route::patch('commandes/{commande}/statut', [OrderController::class, 'updateStatus'])->name('commandes.updateStatus');
         Route::patch('commandes/{commande}/prix-final', [OrderController::class, 'setPrixFinal'])->name('commandes.setPrixFinal');
+        Route::patch('commandes/{commande}/mesures-demandees', [OrderController::class, 'demanderMesures'])->name('commandes.demanderMesures');
 
         // Mesures
         Route::get('clients/{client}/mesures', [MeasurementController::class, 'index'])->name('mesures.index');

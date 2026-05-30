@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\PublicSite;
 
 use App\Enums\OrderStatus;
+use App\Enums\OrderType;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\MesureType;
 use App\Services\Client\ClientService;
 use App\Services\Measurement\MesureService;
 use App\Services\Order\CommandeService;
@@ -52,18 +54,41 @@ class SuiviController extends Controller
 
         $commande->load(['modele.categorie', 'accessoires', 'client']);
 
-        // Si la commande attend les mesures, preparer le formulaire de saisie
+        // La saisie de mesures par le client n'est possible QUE pour les precommandes.
+        // Pour les autres types (physique, a distance), c'est le tailleur qui saisit.
         $typesMesures = collect();
         $mesuresExistantes = collect();
 
-        if ($commande->statut === OrderStatus::EnAttenteMesures && $commande->modele) {
-            $typesMesures = $this->mesureService->getTypesParCategorie($commande->modele->categorie_modele_id);
+        if (
+            $commande->type === OrderType::Precommande
+            && $commande->statut === OrderStatus::EnAttenteMesures
+            && $commande->modele
+        ) {
+            $typesMesures = $this->construireTypesMesures($commande);
             $mesuresExistantes = $this->mesureService
                 ->getMesuresClient($commande->client_id, $commande->id)
                 ->keyBy('mesure_type_id');
         }
 
         return view('public.suivi.commande', compact('commande', 'typesMesures', 'mesuresExistantes'));
+    }
+
+    /**
+     * Construit la liste des mesures a demander au client :
+     * socle de base + mesures de la categorie + mesures supplementaires
+     * demandees par le tailleur (mesures_demandees).
+     */
+    private function construireTypesMesures($commande): \Illuminate\Support\Collection
+    {
+        $types = $this->mesureService->getTypesParCategorie($commande->modele->categorie_modele_id);
+
+        $idsSupplementaires = $commande->mesures_demandees ?? [];
+        if (!empty($idsSupplementaires)) {
+            $supplementaires = MesureType::whereIn('id', $idsSupplementaires)->get();
+            $types = $types->merge($supplementaires);
+        }
+
+        return $types->unique('id')->values();
     }
 
     public function storeMesures(Request $request, string $lienSuivi): RedirectResponse
@@ -77,6 +102,12 @@ class SuiviController extends Controller
 
         $commande->load('modele');
 
+        // Securite : seules les precommandes autorisent la saisie par le client
+        if ($commande->type !== OrderType::Precommande) {
+            return redirect()->route('public.suivi.commande', $commande->lien_suivi)
+                ->with('error', 'Les mesures de cette commande sont saisies par le couturier.');
+        }
+
         $validated = $request->validate([
             'consentement' => ['accepted'],
             'mesures' => ['required', 'array'],
@@ -87,7 +118,7 @@ class SuiviController extends Controller
         ]);
 
         // Verifier que toutes les mesures de base (obligatoires) sont fournies
-        $typesMesures = $this->mesureService->getTypesParCategorie($commande->modele->categorie_modele_id);
+        $typesMesures = $this->construireTypesMesures($commande);
         $manquantes = [];
 
         foreach ($typesMesures as $type) {

@@ -156,7 +156,40 @@
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                         Voir / Ajouter les mesures
                     </a>
+                    @if($commande->type === \App\Enums\OrderType::Precommande)
+                        <p class="mt-2 text-xs text-cendre">
+                            Pour une precommande, le client saisit lui-meme ses mesures via son lien de suivi.
+                        </p>
+                    @endif
                 </x-ui.card>
+
+                {{-- Mesures supplementaires a demander (precommande complexe) --}}
+                @if($commande->type === \App\Enums\OrderType::Precommande)
+                    <x-ui.card title="Mesures supplementaires a demander">
+                        <p class="text-xs text-cendre mb-3">
+                            Le socle de base est toujours demande. Cochez les mesures additionnelles
+                            a demander au client si le modele est complexe.
+                        </p>
+                        <form method="POST" action="{{ route('admin.commandes.demanderMesures', $commande) }}">
+                            @csrf
+                            @method('PATCH')
+                            <div class="space-y-2 max-h-56 overflow-y-auto">
+                                @foreach($mesuresOptionnelles as $type)
+                                    <label class="flex items-center text-sm">
+                                        <input type="checkbox" name="mesures_demandees[]" value="{{ $type->id }}"
+                                               @checked(in_array($type->id, $commande->mesures_demandees ?? []))
+                                               class="mr-2 rounded border-lin text-terracotta-500 focus:ring-terracotta-500">
+                                        <span class="text-charbon">{{ $type->libelle }}</span>
+                                        <span class="text-cendre text-xs ml-1">({{ $type->unite }})</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <button type="submit" class="mt-3 w-full px-3 py-2 bg-terracotta-500 text-white text-sm rounded-couture hover:bg-terracotta-600 transition">
+                                Enregistrer les mesures demandees
+                            </button>
+                        </form>
+                    </x-ui.card>
+                @endif
             @endif
         </div>
     </div>

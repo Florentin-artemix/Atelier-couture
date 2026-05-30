@@ -32,6 +32,7 @@ class Commande extends Model
         'date_livraison_reelle',
         'notes_internes',
         'notes_client',
+        'mesures_demandees',
         'lien_suivi',
     ];
 
@@ -46,6 +47,7 @@ class Commande extends Model
             'date_commande' => 'date',
             'date_livraison_prevue' => 'date',
             'date_livraison_reelle' => 'date',
+            'mesures_demandees' => 'array',
         ];
     }
 

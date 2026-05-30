@@ -48,10 +48,16 @@ class OrderController extends Controller
 
     public function show(Commande $commande): View
     {
-        $commande->load(['client', 'modele', 'accessoires', 'rappels']);
+        $commande->load(['client', 'modele.categorie', 'accessoires', 'rappels']);
         $details = $this->tarificationService->calculerDetails($commande);
 
-        return view('admin.commandes.show', compact('commande', 'details'));
+        // Pour les precommandes : liste des mesures non-base (que le tailleur
+        // peut demander en plus au client si le modele est complexe)
+        $mesuresOptionnelles = \App\Models\MesureType::where('is_base', false)
+            ->orderBy('libelle')
+            ->get();
+
+        return view('admin.commandes.show', compact('commande', 'details', 'mesuresOptionnelles'));
     }
 
     public function edit(Commande $commande): View
@@ -84,6 +90,21 @@ class OrderController extends Controller
 
         return redirect()->route('admin.commandes.show', $commande)
             ->with('success', 'Prix final enregistre.');
+    }
+
+    public function demanderMesures(Request $request, Commande $commande): RedirectResponse
+    {
+        $validated = $request->validate([
+            'mesures_demandees' => ['nullable', 'array'],
+            'mesures_demandees.*' => ['exists:mesure_types,id'],
+        ]);
+
+        $commande->update([
+            'mesures_demandees' => array_map('intval', $validated['mesures_demandees'] ?? []),
+        ]);
+
+        return redirect()->route('admin.commandes.show', $commande)
+            ->with('success', 'Mesures supplementaires a demander au client enregistrees.');
     }
 
     public function destroy(Commande $commande): RedirectResponse
