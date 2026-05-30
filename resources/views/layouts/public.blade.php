@@ -24,6 +24,7 @@
                 <div class="hidden md:flex md:items-center md:space-x-8">
                     <a href="{{ route('public.catalogue.index') }}" class="text-cendre hover:text-terracotta-500 transition">Catalogue</a>
                     <a href="{{ route('public.portfolio.index') }}" class="text-cendre hover:text-terracotta-500 transition">Portfolio</a>
+                    <a href="{{ route('public.suivi.index') }}" class="text-cendre hover:text-terracotta-500 transition">Suivi</a>
                     <a href="{{ route('login') }}" class="text-cendre hover:text-terracotta-500 transition">Connexion</a>
                     <a href="{{ route('public.catalogue.index') }}" class="inline-flex items-center px-4 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition">
                         Precommander
@@ -47,6 +48,7 @@
             <div class="px-4 py-3 space-y-2">
                 <a href="{{ route('public.catalogue.index') }}" class="block px-3 py-2 text-cendre hover:text-terracotta-500">Catalogue</a>
                 <a href="{{ route('public.portfolio.index') }}" class="block px-3 py-2 text-cendre hover:text-terracotta-500">Portfolio</a>
+                <a href="{{ route('public.suivi.index') }}" class="block px-3 py-2 text-cendre hover:text-terracotta-500">Suivi</a>
                 <a href="{{ route('login') }}" class="block px-3 py-2 text-cendre hover:text-terracotta-500">Connexion</a>
                 <a href="{{ route('public.catalogue.index') }}" class="block px-3 py-2 bg-terracotta-500 text-white rounded-couture text-center">Precommander</a>
             </div>

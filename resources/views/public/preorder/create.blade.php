@@ -28,7 +28,7 @@
     </div>
 
     {{-- Preorder form --}}
-    <form action="{{ route('client.preorder.store') }}" method="POST" class="mt-8 space-y-1">
+    <form action="{{ route('public.preorder.store') }}" method="POST" class="mt-8 space-y-1">
         @csrf
         <input type="hidden" name="modele_id" value="{{ $modele->id }}">
 

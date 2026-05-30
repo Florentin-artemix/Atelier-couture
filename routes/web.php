@@ -26,9 +26,12 @@ Route::get('/portfolio', [PortfolioController::class, 'index'])->name('public.po
 
 // Preorder
 Route::get('/precommande/{modele}', [PreorderController::class, 'create'])->name('public.preorder.create');
+Route::post('/precommande', [PreorderController::class, 'store'])->name('public.preorder.store');
 Route::get('/precommande/confirmation/{lien}', [PreorderController::class, 'confirmation'])->name('public.preorder.confirmation');
 
 // Suivi public
+Route::get('/suivi', [SuiviController::class, 'index'])->name('public.suivi.index');
+Route::post('/suivi/recherche', [SuiviController::class, 'recherche'])->name('public.suivi.recherche');
 Route::get('/suivi/commande/{lienSuivi}', [SuiviController::class, 'showCommande'])->name('public.suivi.commande');
 Route::get('/suivi/client/{lienSuivi}', [SuiviController::class, 'showClient'])->name('public.suivi.client');
 
