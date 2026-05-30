@@ -33,6 +33,7 @@ Route::get('/precommande/confirmation/{lien}', [PreorderController::class, 'conf
 Route::get('/suivi', [SuiviController::class, 'index'])->name('public.suivi.index');
 Route::post('/suivi/recherche', [SuiviController::class, 'recherche'])->name('public.suivi.recherche');
 Route::get('/suivi/commande/{lienSuivi}', [SuiviController::class, 'showCommande'])->name('public.suivi.commande');
+Route::post('/suivi/commande/{lienSuivi}/mesures', [SuiviController::class, 'storeMesures'])->name('public.suivi.mesures');
 Route::get('/suivi/client/{lienSuivi}', [SuiviController::class, 'showClient'])->name('public.suivi.client');
 
 // Admin & Client route files

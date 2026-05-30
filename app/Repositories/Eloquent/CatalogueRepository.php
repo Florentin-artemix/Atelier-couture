@@ -43,7 +43,7 @@ class CatalogueRepository implements CatalogueRepositoryInterface
 
     public function getActiveCategories(): Collection
     {
-        return CategorieModele::active()->ordered()->get();
+        return CategorieModele::active()->withCount('modeles')->ordered()->get();
     }
 
     public function createCategory(array $data): CategorieModele

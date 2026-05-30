@@ -25,7 +25,7 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function search(?string $term, int $perPage = 15): LengthAwarePaginator
     {
-        $query = Client::active();
+        $query = Client::active()->withCount('commandes');
 
         if ($term) {
             $query->search($term);

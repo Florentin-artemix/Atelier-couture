@@ -7,6 +7,12 @@
     <h1 class="font-display text-3xl font-semibold text-charbon text-center">Suivi de commande</h1>
     <p class="mt-2 text-cendre text-center">Retrouvez vos commandes en entrant votre lien de suivi ou votre numero de telephone.</p>
 
+    @if(session('error'))
+        <div class="mt-6 px-4 py-3 bg-red-50 border border-red-200 text-red-800 rounded-couture text-sm">
+            {{ session('error') }}
+        </div>
+    @endif
+
     {{-- Lien de suivi direct --}}
     <div class="mt-8">
         <x-ui.card title="J'ai un lien de suivi">
