@@ -161,8 +161,18 @@ class SuiviController extends Controller
             return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
 
+        // Les mesures sont completes : on fait avancer la commande en production.
+        // Ainsi le formulaire ne se reaffiche plus (statut != en_attente_mesures)
+        // et les informations ne sont pas redemandees au client.
+        try {
+            $this->commandeService->changerStatut($commande->fresh(), OrderStatus::EnProduction);
+        } catch (\Throwable $e) {
+            // Transition impossible (ex: mesure de categorie manquante) : on ne bloque pas,
+            // les mesures sont deja enregistrees.
+        }
+
         return redirect()->route('public.suivi.commande', $commande->lien_suivi)
-            ->with('success', 'Merci ! Vos mesures ont ete enregistrees. Le couturier va pouvoir lancer la confection.');
+            ->with('success', 'Merci ! Vos mesures ont ete enregistrees. Le couturier va lancer la confection.');
     }
 
     public function showClient(string $lienSuivi): View|RedirectResponse
