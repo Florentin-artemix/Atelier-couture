@@ -2,7 +2,7 @@
   "id": "FEAT-005",
   "type": "feat",
   "description": "Generate all Blade views: 3 layouts, UI components, form components, navigation components, order components, catalogue components, and all page views (public, admin, client, auth)",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create resources/views/layouts/public.blade.php - navbar (AtelierCouture logo, Catalogue, Portfolio, Suivi, Connexion, Precommander CTA) with mobile hamburger (Alpine.js), flash messages, main content, footer with contact info. Google Fonts link for Cormorant Garamond + Inter",
     "Create resources/views/layouts/admin.blade.php - sidebar (using x-navigation.admin-sidebar), top header with user name and logout, main content area. @yield('page-title') and @yield('content')",
