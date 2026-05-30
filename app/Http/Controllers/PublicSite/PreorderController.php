@@ -44,11 +44,13 @@ class PreorderController extends Controller
             ]);
         }
 
+        $modele = Modele::findOrFail($validated['modele_id']);
+
         $commande = $this->commandeService->creerCommande([
             'client_id' => $client->id,
             'modele_id' => $validated['modele_id'],
             'type' => 'precommande',
-            'date_livraison_prevue' => null,
+            'date_livraison_prevue' => now()->addDays($modele->duree_estimee_jours ?? 14)->toDateString(),
             'notes_client' => $validated['notes'] ?? null,
         ]);
 

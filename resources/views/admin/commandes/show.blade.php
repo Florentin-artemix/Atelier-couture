@@ -123,6 +123,25 @@
                     </button>
                 </form>
             </x-ui.card>
+
+            {{-- Lien de suivi client --}}
+            <x-ui.card title="Lien de suivi">
+                <p class="text-xs text-cendre mb-2">Envoyez ce lien au client pour qu'il suive sa commande :</p>
+                <div class="bg-sable border border-lin rounded-couture p-2 text-xs font-mono text-charbon break-all select-all">
+                    {{ url('/suivi/commande/' . $commande->lien_suivi) }}
+                </div>
+                <p class="text-xs text-cendre mt-2">Le client peut aussi chercher par telephone sur <a href="{{ url('/suivi') }}" class="text-terracotta-500 underline">/suivi</a></p>
+            </x-ui.card>
+
+            {{-- Mesures du client --}}
+            @if($commande->client)
+                <x-ui.card title="Mesures">
+                    <a href="{{ route('admin.mesures.index', $commande->client) }}" class="inline-flex items-center text-sm text-terracotta-500 hover:text-terracotta-700">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                        Voir / Ajouter les mesures
+                    </a>
+                </x-ui.card>
+            @endif
         </div>
     </div>
 @endsection

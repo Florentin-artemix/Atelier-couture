@@ -19,7 +19,8 @@ class PortfolioController extends Controller
     {
         $entries = $this->portfolioService->getAllEntries();
 
-        return view('admin.portfolio.index', compact('entries'));
+        $realisations = $entries;
+        return view('admin.portfolio.index', compact('realisations'));
     }
 
     public function create(): View
