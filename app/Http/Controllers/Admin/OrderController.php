@@ -30,7 +30,11 @@ class OrderController extends Controller
 
     public function create(): View
     {
-        return view('admin.commandes.create');
+        $clients = \App\Models\Client::active()->orderBy('nom')->get();
+        $modeles = \App\Models\Modele::where('is_active', true)->orderBy('nom')->get();
+        $accessoires = \App\Models\Accessoire::where('is_active', true)->orderBy('nom')->get();
+
+        return view('admin.commandes.create', compact('clients', 'modeles', 'accessoires'));
     }
 
     public function store(StoreOrderRequest $request): RedirectResponse
