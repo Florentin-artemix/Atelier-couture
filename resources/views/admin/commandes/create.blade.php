@@ -16,41 +16,26 @@
                     label="Client"
                     name="client_id"
                     :options="$clients->pluck('nom', 'id')->toArray()"
-                    :required="true"
+                    required
                 />
 
                 <x-forms.select
                     label="Modele"
                     name="modele_id"
                     :options="$modeles->pluck('nom', 'id')->toArray()"
-                    :required="true"
+                    required
                 />
 
                 <x-forms.select
                     label="Type de commande"
                     name="type"
-                    :options="collect(\App\Enums\OrderType::cases())->mapWithKeys(fn($t) => [$t->value => $t->label()])->toArray()"
-                    :required="true"
+                    :options="['physique' => 'Physique (en atelier)', 'a_distance' => 'A distance', 'precommande' => 'Precommande']"
+                    required
                 />
 
-                <x-forms.input label="Date de livraison prevue" name="date_livraison_prevue" type="date" />
+                <x-forms.input label="Date de livraison prevue" name="date_livraison_prevue" type="date" required />
 
-                <x-forms.textarea label="Notes" name="notes" rows="3" />
-
-                {{-- Accessories --}}
-                @if(isset($accessoires) && $accessoires->count())
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-charbon mb-2">Accessoires</label>
-                        <div class="space-y-2">
-                            @foreach($accessoires as $accessoire)
-                                <x-forms.checkbox
-                                    :label="$accessoire->nom . ' (' . number_format($accessoire->prix_unitaire, 0, ',', ' ') . ' FC/' . $accessoire->unite . ')'"
-                                    :name="'accessoires[' . $accessoire->id . ']'"
-                                />
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
+                <x-forms.textarea label="Notes internes" name="notes_internes" rows="3" />
 
                 <div class="pt-4 border-t border-lin">
                     <button type="submit" class="px-6 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition font-medium">

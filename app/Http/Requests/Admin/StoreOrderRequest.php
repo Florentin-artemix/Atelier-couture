@@ -17,11 +17,10 @@ class StoreOrderRequest extends FormRequest
             'client_id' => ['required', 'exists:clients,id'],
             'modele_id' => ['required', 'exists:modeles,id'],
             'type' => ['required', 'in:physique,a_distance,precommande'],
-            'date_livraison_prevue' => ['required', 'date', 'after:today'],
+            'date_livraison_prevue' => ['required', 'date', 'after_or_equal:today'],
+            'notes_internes' => ['nullable', 'string'],
+            'notes_client' => ['nullable', 'string'],
             'accessoires' => ['nullable', 'array'],
-            'accessoires.*.accessoire_id' => ['required_with:accessoires', 'exists:accessoires,id'],
-            'accessoires.*.quantite' => ['nullable', 'integer', 'min:1'],
-            'accessoires.*.fourni_par_client' => ['nullable', 'boolean'],
         ];
     }
 }
