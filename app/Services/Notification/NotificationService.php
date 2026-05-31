@@ -3,6 +3,7 @@
 namespace App\Services\Notification;
 
 use App\Enums\OrderStatus;
+use App\Enums\OrderType;
 use App\Enums\ReminderType;
 use App\Exceptions\BusinessException;
 use App\Models\Commande;
@@ -20,8 +21,29 @@ class NotificationService
 
     public function creerRappelAutomatique(Commande $commande): Rappel
     {
+        $commande->loadMissing(['client', 'modele']);
+
+        // Precommande : alerter immediatement le tailleur qu'une nouvelle
+        // precommande attend sa validation (visible dans Rappels + Dashboard).
+        if ($commande->type === OrderType::Precommande) {
+            $client = $commande->client;
+            $infosClient = $client
+                ? "{$client->nom} ({$client->telephone})"
+                : 'client inconnu';
+
+            return $this->reminderRepository->create([
+                'commande_id' => $commande->id,
+                'client_id' => $commande->client_id,
+                'type' => ReminderType::Precommande,
+                'titre' => "Nouvelle precommande a valider : {$commande->reference}",
+                'description' => "Precommande de {$infosClient} pour le modele « {$commande->modele?->nom} ». A valider ou rejeter.",
+                'date_echeance' => now()->toDateString(),
+            ]);
+        }
+
+        // Autres types : rappel de pre-livraison.
         $joursAvant = (int) config('ateliercouture.rappel_pre_livraison_jours', 2);
-        $dateEcheance = $commande->date_livraison_prevue->subDays($joursAvant);
+        $dateEcheance = $commande->date_livraison_prevue->copy()->subDays($joursAvant);
 
         if ($dateEcheance->isPast()) {
             $dateEcheance = now();

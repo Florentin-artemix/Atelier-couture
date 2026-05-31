@@ -24,12 +24,23 @@
             </div>
 
             @if($commande->lien_suivi)
-                <p class="mt-4 text-sm text-cendre">
-                    Suivez votre commande :
-                    <a href="{{ route('public.suivi.commande', $commande->lien_suivi) }}" class="text-terracotta-500 hover:underline">
-                        Lien de suivi
+                <div class="mt-4 text-left" x-data="{ copie: false, lien: '{{ route('public.suivi.commande', $commande->lien_suivi) }}' }">
+                    <p class="text-sm text-cendre mb-1">Votre lien de suivi (conservez-le precieusement) :</p>
+                    <div class="flex items-stretch gap-2">
+                        <input type="text" readonly :value="lien"
+                               class="flex-1 px-3 py-2 border border-lin rounded-couture bg-white text-charbon text-sm font-mono"
+                               onclick="this.select()">
+                        <button type="button"
+                                @click="navigator.clipboard.writeText(lien); copie = true; setTimeout(() => copie = false, 2000)"
+                                class="px-4 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition text-sm whitespace-nowrap">
+                            <span x-show="!copie">Copier</span>
+                            <span x-show="copie" x-cloak>Copie !</span>
+                        </button>
+                    </div>
+                    <a :href="lien" class="mt-3 inline-block text-terracotta-500 hover:underline text-sm">
+                        Ouvrir le suivi de ma commande &rarr;
                     </a>
-                </p>
+                </div>
             @endif
         @endif
 
