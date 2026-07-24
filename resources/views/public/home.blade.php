@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Atelier Couture - Couture sur mesure')
+@section('title', 'Diva Couture - Couture sur mesure')
 
 @section('content')
     {{-- Hero section --}}

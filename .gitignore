@@ -19,3 +19,19 @@ yarn-error.log
 /.fleet
 .DS_Store
 .phpactor.json
+# Laravel cache
+/bootstrap/cache/*.php
+!/bootstrap/cache/.gitignore
+
+# Storage generated files
+/storage/logs/*
+!/storage/logs/.gitignore
+
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
