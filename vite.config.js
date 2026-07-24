@@ -12,13 +12,9 @@ export default defineConfig({
         }),
     ],
     server: {
-        host: '0.0.0.0',
-        hmr: process.env.CODESPACE_NAME
-            ? {
-                  host: `${process.env.CODESPACE_NAME}-5173.app.github.dev`,
-                  protocol: 'wss',
-                  clientPort: 443,
-              }
-            : undefined,
+        host: '127.0.0.1',
+        hmr: {
+            host: '127.0.0.1',
+        },
     },
 });
