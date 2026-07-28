@@ -29,8 +29,8 @@
     {{-- Liste des rappels --}}
     <div class="space-y-3">
         @forelse($rappels as $rappel)
-            <div class="bg-white rounded-couture shadow-sm border border-lin p-4 flex items-center justify-between">
-                <div>
+            <div class="bg-white rounded-couture shadow-sm border border-lin p-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="min-w-0">
                     <p class="font-medium text-charbon">{{ $rappel->titre }}</p>
                     <p class="text-sm text-cendre">
                         Echeance : {{ $rappel->date_echeance ? $rappel->date_echeance->format('d/m/Y') : '-' }}
@@ -45,7 +45,7 @@
                 <form method="POST" action="{{ route('admin.rappels.markDone', $rappel) }}">
                     @csrf
                     @method('PATCH')
-                    <button type="submit" class="px-3 py-1.5 bg-green-50 text-green-700 rounded-couture text-xs hover:bg-green-100 transition">
+                    <button type="submit" class="whitespace-nowrap px-3 py-1.5 bg-green-50 text-green-700 rounded-couture text-xs hover:bg-green-100 transition">
                         Marquer fait
                     </button>
                 </form>

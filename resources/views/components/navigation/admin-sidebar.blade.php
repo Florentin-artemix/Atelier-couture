@@ -32,3 +32,29 @@ $links = [
         @endforeach
     </nav>
 </aside>
+
+{{-- Mobile navigation --}}
+<div x-cloak x-show="adminMenuOpen" class="lg:hidden fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Navigation d'administration">
+    <div x-show="adminMenuOpen" x-transition.opacity class="absolute inset-0 bg-charbon/40" @click="adminMenuOpen = false"></div>
+    <aside x-show="adminMenuOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="relative flex h-full w-72 max-w-[85vw] flex-col bg-white shadow-xl">
+        <div class="flex items-center justify-between border-b border-lin px-5 py-4">
+            <div>
+                <a href="{{ route('admin.dashboard') }}" @click="adminMenuOpen = false" class="font-display text-xl font-semibold text-charbon">Atelier Couture</a>
+                <p class="mt-1 text-xs text-cendre">Administration</p>
+            </div>
+            <button type="button" @click="adminMenuOpen = false" class="inline-flex h-10 w-10 items-center justify-center rounded-couture text-cendre hover:bg-sable" aria-label="Fermer le menu">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+        <nav class="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+            @foreach($links as $link)
+                <a href="{{ route($link['route']) }}" @click="adminMenuOpen = false"
+                   class="flex items-center px-3 py-3 text-sm rounded-couture transition
+                          {{ request()->routeIs($link['route'] . '*') ? 'bg-terracotta-50 text-terracotta-700 font-medium' : 'text-cendre hover:bg-sable hover:text-charbon' }}">
+                    <span class="mr-3">{!! $link['icon'] !!}</span>
+                    {{ $link['label'] }}
+                </a>
+            @endforeach
+        </nav>
+    </aside>
+</div>

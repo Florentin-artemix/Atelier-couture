@@ -25,7 +25,7 @@
     {{-- Orders table --}}
     <div class="bg-white rounded-couture shadow-sm border border-lin overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table class="w-full min-w-[760px] text-sm">
                 <thead class="bg-sable">
                     <tr>
                         <th class="px-4 py-3 text-left text-xs font-medium text-cendre uppercase">Reference</th>

@@ -3,9 +3,9 @@
 @section('page-title', 'Portfolio')
 
 @section('content')
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
         <p class="text-sm text-cendre">{{ $realisations->count() }} realisation(s)</p>
-        <a href="{{ route('admin.portfolio.create') }}" class="inline-flex items-center px-4 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition text-sm">
+        <a href="{{ route('admin.portfolio.create') }}" class="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition text-sm">
             + Nouvelle realisation
         </a>
     </div>
@@ -28,7 +28,7 @@
                         <p class="mt-1 text-sm text-cendre line-clamp-2">{{ $realisation->description }}</p>
                     @endif
                 </div>
-                <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition flex space-x-1">
+                <div class="absolute top-2 right-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition flex space-x-1">
                     <a href="{{ route('admin.portfolio.edit', $realisation) }}" class="px-2 py-1 bg-white text-charbon rounded text-xs shadow-sm border border-lin hover:bg-sable">Modifier</a>
                     <form method="POST" action="{{ route('admin.portfolio.destroy', $realisation) }}" onsubmit="return confirm('Supprimer cette realisation ?')">
                         @csrf

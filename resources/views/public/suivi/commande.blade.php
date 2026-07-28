@@ -19,8 +19,8 @@
 
     <x-ui.card class="mt-8">
         {{-- Reference --}}
-        <div class="flex items-center justify-between mb-6">
-            <div>
+        <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
+            <div class="min-w-0">
                 <p class="text-sm text-cendre">Reference</p>
                 <p class="font-mono font-semibold text-charbon">{{ $commande->reference }}</p>
             </div>

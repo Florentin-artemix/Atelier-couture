@@ -26,7 +26,7 @@
             @if($commande->lien_suivi)
                 <div class="mt-4 text-left" x-data="{ copie: false, lien: '{{ route('public.suivi.commande', $commande->lien_suivi) }}' }">
                     <p class="text-sm text-cendre mb-1">Votre lien de suivi (conservez-le precieusement) :</p>
-                    <div class="flex items-stretch gap-2">
+                    <div class="flex flex-col sm:flex-row sm:items-stretch gap-2">
                         <input type="text" readonly :value="lien"
                                class="flex-1 px-3 py-2 border border-lin rounded-couture bg-white text-charbon text-sm font-mono"
                                onclick="this.select()">

@@ -3,16 +3,16 @@
 @section('page-title', 'Accessoires')
 
 @section('content')
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
         <p class="text-sm text-cendre">{{ $accessoires->count() }} accessoire(s)</p>
-        <a href="{{ route('admin.accessoires.create') }}" class="inline-flex items-center px-4 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition text-sm">
+        <a href="{{ route('admin.accessoires.create') }}" class="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 bg-terracotta-500 text-white rounded-couture hover:bg-terracotta-600 transition text-sm">
             + Nouvel accessoire
         </a>
     </div>
 
     <div class="bg-white rounded-couture shadow-sm border border-lin overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table class="w-full min-w-[620px] text-sm">
                 <thead class="bg-sable">
                     <tr>
                         <th class="px-4 py-3 text-left text-xs font-medium text-cendre uppercase">Nom</th>

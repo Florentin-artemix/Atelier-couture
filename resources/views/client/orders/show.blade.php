@@ -9,8 +9,8 @@
 
     <div class="space-y-6">
         {{-- Header --}}
-        <div class="flex items-center justify-between">
-            <div>
+        <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div class="min-w-0">
                 <h1 class="font-display text-2xl font-semibold text-charbon">Commande {{ $commande->reference }}</h1>
                 <p class="text-sm text-cendre">Creee le {{ $commande->created_at->format('d/m/Y') }}</p>
             </div>
@@ -53,9 +53,9 @@
             <x-ui.card title="Accessoires">
                 <ul class="divide-y divide-lin text-sm">
                     @foreach($commande->accessoires as $accessoire)
-                        <li class="py-2 flex justify-between">
-                            <span class="text-charbon">{{ $accessoire->nom }}</span>
-                            <span class="text-cendre">{{ number_format($accessoire->pivot->prix_unitaire_snapshot, 0, ',', ' ') }} FC</span>
+                        <li class="py-2 flex flex-col gap-1 sm:flex-row sm:justify-between">
+                            <span class="text-charbon break-words">{{ $accessoire->nom }}</span>
+                            <span class="text-cendre whitespace-nowrap">{{ number_format($accessoire->pivot->prix_unitaire_snapshot, 0, ',', ' ') }} FC</span>
                         </li>
                     @endforeach
                 </ul>

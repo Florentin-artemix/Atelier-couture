@@ -5,9 +5,9 @@
 @section('content')
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
         {{-- Search --}}
-        <form method="GET" action="{{ route('admin.clients.index') }}" class="flex gap-2">
+        <form method="GET" action="{{ route('admin.clients.index') }}" class="flex flex-col sm:flex-row gap-2">
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher un client..."
-                   class="px-3 py-2 border border-lin rounded-couture bg-white text-charbon placeholder-cendre focus:outline-none focus:ring-2 focus:ring-terracotta-500 text-sm">
+                   class="w-full sm:w-auto px-3 py-2 border border-lin rounded-couture bg-white text-charbon placeholder-cendre focus:outline-none focus:ring-2 focus:ring-terracotta-500 text-sm">
             <button type="submit" class="px-4 py-2 bg-white border border-lin rounded-couture text-sm text-cendre hover:bg-sable transition">
                 Rechercher
             </button>
@@ -19,7 +19,7 @@
 
     <div class="bg-white rounded-couture shadow-sm border border-lin overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table class="w-full min-w-[700px] text-sm">
                 <thead class="bg-sable">
                     <tr>
                         <th class="px-4 py-3 text-left text-xs font-medium text-cendre uppercase">Nom</th>
